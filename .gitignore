@@ -1,0 +1,33 @@
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Django database
+db.sqlite3
+db.sqlite3-journal
+
+# Logs
+*.log
+
+# Environment variables / secrets
+.env
+.env.*
+
+# Django user-uploaded files
+media/
+
+# Collected static files
+staticfiles/
+
+# Test / coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# IDE settings
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
