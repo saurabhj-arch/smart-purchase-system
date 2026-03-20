@@ -1,0 +1,446 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
+  background: #f5f5f7;
+  color: #1d1d1f;
+}
+
+a {
+  text-decoration: none;
+  color: #1d1d1f;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.searchForm {
+  width: 42%;
+}
+
+.search {
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: 24px;
+  border: 1px solid #ddd;
+  outline: none;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.navLinks {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+/* HOME + SIDEBAR */
+
+.homeLayout {
+  display: flex;
+  min-height: calc(100vh - 72px);
+}
+
+.dashboardSidebar {
+  width: 250px;
+  background: #23409a;
+  color: white;
+  padding: 26px 18px;
+  box-sizing: border-box;
+}
+
+.dashboardSidebar h2 {
+  margin: 0 0 22px;
+  font-size: 28px;
+}
+
+.dashboardSidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dashboardSidebar li {
+  padding: 12px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 6px;
+  transition: 0.2s;
+}
+
+.dashboardSidebar li:hover,
+.activeSidebarItem {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.homeContent {
+  flex: 1;
+}
+
+.heroSection {
+  padding: 48px 40px 16px;
+}
+
+.heroSection h1 {
+  margin: 0 0 10px;
+  font-size: 42px;
+}
+
+.heroSection p {
+  margin: 0;
+  max-width: 700px;
+  color: #6e6e73;
+  font-size: 17px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  margin-top: 8px;
+}
+
+.sectionHeader h2 {
+  margin: 0;
+}
+
+.sectionHeader span {
+  color: #6e6e73;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 30px;
+  padding: 30px 40px 50px;
+}
+
+.card {
+  background: white;
+  border-radius: 18px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+}
+
+.card img {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+}
+
+.priceBox {
+  margin-top: 10px;
+  font-weight: 600;
+  color: #0071e3;
+}
+
+.ratingText,
+.reviewText,
+.bestDealText {
+  margin: 8px 0;
+  color: #6e6e73;
+}
+
+.primaryBtn {
+  margin-top: 12px;
+  padding: 10px 16px;
+  border-radius: 20px;
+  border: none;
+  background: #0071e3;
+  color: white;
+  cursor: pointer;
+}
+
+.emptyState {
+  background: white;
+  border-radius: 18px;
+  padding: 30px;
+  grid-column: 1 / -1;
+  text-align: center;
+}
+
+/* PRODUCT PAGE */
+
+/* ===== PRODUCT PAGE UI UPGRADE ===== */
+
+.productPage {
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* Better hero layout */
+.productHero {
+  gap: 30px;
+}
+
+/* Cleaner info box */
+.productInfoBox h1 {
+  margin-bottom: 8px;
+}
+
+.bestDealBox {
+  margin-top: 20px;
+  background: linear-gradient(135deg, #f7fbff, #eef6ff);
+  border: 1px solid #d6e8ff;
+}
+
+/* Price highlight */
+.bestPrice {
+  font-size: 36px;
+  font-weight: 700;
+  color: #0071e3;
+}
+
+/* Buttons (remove default look) */
+.buyNowBtn,
+.addToCartBtn {
+  all: unset;
+  padding: 12px 20px;
+  border-radius: 14px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.buyNowBtn {
+  background: linear-gradient(135deg, #0071e3, #005bb5);
+  color: white;
+}
+
+.buyNowBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(0, 113, 227, 0.3);
+}
+
+.addToCartBtn {
+  background: #eef5ff;
+  color: #0071e3;
+  border: 1px solid #cfe4ff;
+}
+
+.addToCartBtn:hover {
+  background: #e4eeff;
+  transform: scale(1.05);
+}
+
+/* ===== PRICE COMPARISON CARDS ===== */
+
+.comparisonSection {
+  padding: 24px;
+}
+
+.priceList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+/* Individual store card */
+.priceCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: white;
+  border: 1px solid #e5e5ea;
+  transition: 0.25s;
+}
+
+.priceCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* Best deal highlight */
+.bestPriceCard {
+  border: 2px solid #34c759;
+  background: #f4fff7;
+}
+
+/* Price text */
+.priceText {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Badge */
+.bestBadge {
+  display: inline-block;
+  background: #34c759;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Buy button inside card */
+.storeBuyBtn {
+  all: unset;
+  padding: 8px 16px;
+  border-radius: 10px;
+  background: #0071e3;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.storeBuyBtn:hover {
+  background: #005bb5;
+  transform: scale(1.05);
+}
+/* LOGIN */
+
+.loginPageWrapper {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+
+.loginBox {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  border-radius: 22px;
+  padding: 36px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.loginBox p {
+  color: #6e6e73;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.loginForm input {
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid #ddd;
+  outline: none;
+  font-size: 15px;
+}
+
+.loginBtn {
+  padding: 14px;
+  border: none;
+  border-radius: 16px;
+  background: #0071e3;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .navbar {
+    flex-direction: column;
+    gap: 14px;
+    padding: 20px;
+  }
+
+  .searchForm {
+    width: 100%;
+  }
+
+  .navLinks {
+    gap: 14px;
+  }
+
+  .homeLayout {
+    flex-direction: column;
+  }
+
+  .dashboardSidebar {
+    width: 100%;
+  }
+
+  .heroSection,
+  .sectionHeader,
+  .grid,
+  .productPage {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .productHero {
+    grid-template-columns: 1fr;
+  }
+}
+
+.storeInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.storeInfo a {
+  text-decoration: none;
+  color: #0071e3;
+  font-weight: 600;
+}
+
+.storeInfo a:hover {
+  text-decoration: underline;
+}
+
+.storeRating {
+  font-size: 13px;
+  color: #6e6e73;
+}
+
+.comparisonHeader,
+.store {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  align-items: center;
+  padding: 12px;
+}
+
+.comparisonHeader {
+  font-weight: 600;
+  border-bottom: 2px solid #eee;
+}
+
+.store {
+  border-bottom: 1px solid #eee;
+}
+
+.store a {
+  text-decoration: none;
+  color: #0071e3;
+  font-weight: 500;
+}
+
+.store a:hover {
+  text-decoration: underline;
+}
