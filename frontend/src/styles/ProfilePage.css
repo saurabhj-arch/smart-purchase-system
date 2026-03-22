@@ -1,0 +1,391 @@
+/* ─── ProfilePage.css ─────────────────────────────────────────────────────
+   Extends main.css — uses the same variables/patterns already in your project.
+   Import this AFTER main.css in your component.
+──────────────────────────────────────────────────────────────────────────── */
+
+/* ── Page wrapper ─────────────────────────────────────────────────────────*/
+.profilePageContent {
+  padding: 0 40px 60px;
+}
+
+.profilePageHeader {
+  padding: 48px 0 16px;
+}
+
+.profilePageHeader h1 {
+  margin: 0 0 8px;
+  font-size: 38px;
+  font-weight: 700;
+}
+
+.profilePageHeader p {
+  margin: 0;
+  color: #6e6e73;
+  font-size: 16px;
+}
+
+/* ── Tab switcher ─────────────────────────────────────────────────────────*/
+.profileTabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.profileTab {
+  padding: 10px 22px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  background: white;
+  font-size: 15px;
+  cursor: pointer;
+  color: #1d1d1f;
+  transition: 0.2s;
+}
+
+.profileTab:hover {
+  border-color: #0071e3;
+  color: #0071e3;
+}
+
+.activeTab {
+  background: #0071e3;
+  color: white;
+  border-color: #0071e3;
+}
+
+/* ── Two-column grid (avatar | info) ──────────────────────────────────────*/
+.profileGrid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ── Shared card style (matches .card in main.css) ────────────────────────*/
+.profileCard {
+  background: white;
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Avatar card ──────────────────────────────────────────────────────────*/
+.avatarCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.avatarCircle {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: #23409a;          /* matches your sidebar color */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatarInitials {
+  font-size: 36px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 1px;
+}
+
+.avatarName {
+  margin: 0 0 4px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.avatarSub {
+  margin: 0 0 20px;
+  color: #6e6e73;
+  font-size: 14px;
+}
+
+.statRow {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  justify-content: center;
+}
+
+.statBox {
+  flex: 1;
+  background: #f5f5f7;
+  border-radius: 14px;
+  padding: 14px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.statNum {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0071e3;
+}
+
+.statLabel {
+  font-size: 12px;
+  color: #6e6e73;
+  margin-top: 2px;
+}
+
+/* ── Info card ────────────────────────────────────────────────────────────*/
+.infoCard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.infoCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.infoCardHeader h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+/* Edit / Save / Cancel buttons */
+.editBtn {
+  padding: 8px 18px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.editBtn:hover {
+  border-color: #0071e3;
+  color: #0071e3;
+}
+
+.editActions {
+  display: flex;
+  gap: 10px;
+}
+
+.saveBtn {
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: none;
+  background: #0071e3;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.saveBtn:hover {
+  background: #005bb5;
+}
+
+.cancelBtn {
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Save confirmation banner */
+.saveMsg {
+  background: #f4fff7;
+  border: 1px solid #34c759;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 14px;
+  color: #1d1d1f;
+}
+
+/* ── Field rows ───────────────────────────────────────────────────────────*/
+.fieldsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profileField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fieldLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6e6e73;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.fieldValue {
+  font-size: 16px;
+  color: #1d1d1f;
+}
+
+.fieldInput {
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid #ddd;
+  outline: none;
+  font-size: 15px;
+  transition: border-color 0.2s;
+}
+
+.fieldInput:focus {
+  border-color: #0071e3;
+}
+
+/* ── Account actions ──────────────────────────────────────────────────────*/
+.accountActions {
+  border-top: 1px solid #f0f0f0;
+  padding-top: 18px;
+}
+
+.accountActions h4 {
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: #6e6e73;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.actionLink {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 10px 0;
+  font-size: 15px;
+  cursor: pointer;
+  color: #1d1d1f;
+  border-bottom: 1px solid #f5f5f7;
+  transition: color 0.2s;
+}
+
+.actionLink:hover {
+  color: #0071e3;
+}
+
+.actionLink.danger:hover {
+  color: #ff3b30;
+}
+
+/* ── Recently Viewed tab ──────────────────────────────────────────────────*/
+.historySection {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.historyList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.historyCard {
+  background: white;
+  border-radius: 18px;
+  padding: 18px 22px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  transition: 0.25s;
+}
+
+.historyCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.1);
+}
+
+.historyImg {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 12px;
+  background: #f5f5f7;
+  flex-shrink: 0;
+}
+
+.historyInfo {
+  flex: 1;
+}
+
+.historyProductName {
+  margin: 0 0 4px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.historyMeta {
+  margin: 0;
+  font-size: 13px;
+  color: #6e6e73;
+}
+
+.historyDeal {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.historyPrice {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0071e3;
+}
+
+.historyStore {
+  font-size: 13px;
+  color: #6e6e73;
+}
+
+.historyBtn {
+  margin-top: 0;
+  flex-shrink: 0;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────*/
+@media (max-width: 900px) {
+  .profilePageContent {
+    padding: 0 20px 40px;
+  }
+
+  .profileGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .avatarCard {
+    flex-direction: row;
+    text-align: left;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .historyCard {
+    flex-wrap: wrap;
+  }
+}

@@ -1,0 +1,112 @@
+/* ─── FOOTER ──────────────────────────────────────────────────────────────── */
+
+.footer {
+  background: #23409a;
+  color: white;
+  padding: 40px 40px 0;
+  margin-top: auto;
+}
+
+.footerGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 2fr 1.5fr;
+  gap: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.footerLogo {
+  font-size: 20px;
+  margin: 0 0 10px;
+  color: white;
+}
+
+.footerTagline {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.footerSection h4 {
+  margin: 0 0 14px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.footerSection ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footerSection ul li {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.footerSection a {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.footerSection a:hover {
+  color: white;
+}
+
+.footerSection p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.footerBadge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  margin-right: 6px;
+}
+
+.rollNo {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+.footerBottom {
+  padding: 16px 0;
+  text-align: center;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+@media (max-width: 900px) {
+  .footer {
+    padding: 30px 20px 0;
+  }
+
+  .footerGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .footerBrand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 500px) {
+  .footerGrid {
+    grid-template-columns: 1fr;
+  }
+}
