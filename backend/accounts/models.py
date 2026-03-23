@@ -12,7 +12,7 @@ class RecentlyViewed(models.Model):
         Product,
         on_delete=models.CASCADE
     )
-    viewed_at = models.DateTimeField(auto_now_add=True)
+    viewed_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         unique_together = ('user', 'product')

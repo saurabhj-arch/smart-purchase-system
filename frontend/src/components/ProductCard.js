@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
+const PLACEHOLDER = "https://placehold.co/300x300?text=No+Image";
+
 function ProductCard({ product }) {
   const nav = useNavigate();
 
@@ -13,11 +15,15 @@ function ProductCard({ product }) {
   return (
     <div
       className="card"
-      onClick={() => {
-  console.log("Clicked product ID:", product.id);
-  nav("/product/" + product.id);
-}}
+      onClick={() => nav("/product/" + product.id)}
     >
+      <img
+        src={product.image_url || PLACEHOLDER}
+        alt={product.name}
+        className="cardImage"
+        onError={(e) => { e.target.src = PLACEHOLDER; }} // fallback if image fails to load
+      />
+
       <h3>{product.name}</h3>
 
       <div className="priceBox">From ₹{lowestPrice}</div>
