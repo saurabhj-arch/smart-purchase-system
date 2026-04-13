@@ -1,0 +1,26 @@
+[
+{
+  "model": "products.website",
+  "pk": 1,
+  "fields": {
+    "name": "Amazon",
+    "base_url": "https://www.amazon.in"
+  }
+},
+{
+  "model": "products.website",
+  "pk": 2,
+  "fields": {
+    "name": "Flipkart",
+    "base_url": "https://www.flipkart.com"
+  }
+},
+{
+  "model": "products.website",
+  "pk": 3,
+  "fields": {
+    "name": "Croma",
+    "base_url": "https://www.croma.com"
+  }
+}
+]
