@@ -1,0 +1,300 @@
+.productPageShell {
+  --sp-bg: #f8fafc;
+  --sp-card: #ffffff;
+  --sp-border: #e2e8f0;
+  --sp-text: #2d3748;
+  --sp-muted: #718096;
+  --sp-primary: #4299e1;
+  --sp-primary-dark: #3182ce;
+  --sp-accent: #ed8936;
+  --sp-success: #48bb78;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 28px 22px 44px;
+  color: var(--sp-text);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.9) 100%);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.productPageState {
+  max-width: 760px;
+  margin: 36px auto;
+  padding: 34px;
+  text-align: center;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid var(--sp-border);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.productPageState::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--sp-primary) 0%, var(--sp-accent) 100%);
+}
+
+.productPageState p {
+  color: var(--sp-muted);
+  margin: 8px 0 0;
+}
+
+.productPageStateError {
+  border-color: #fc8181;
+  background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+}
+
+.productPageStateError::before {
+  background: linear-gradient(90deg, #fc8181 0%, #f56565 100%);
+}
+
+.productHeroCard {
+  background: linear-gradient(160deg, #ffffff 0%, var(--sp-bg) 100%);
+  border: 1px solid var(--sp-border);
+  border-radius: 20px;
+  padding: 22px;
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  gap: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.productHeroCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--sp-primary) 0%, var(--sp-accent) 100%);
+}
+
+.productHeroImage {
+  width: 100%;
+  height: 220px;
+  object-fit: contain;
+  border-radius: 14px;
+  border: 2px solid var(--sp-border);
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.productHeroImage:hover {
+  transform: scale(1.02);
+}
+
+.productHeroInfo h1 {
+  margin: 0 0 10px;
+  line-height: 1.25;
+  font-size: 30px;
+}
+
+.productBestPrice {
+  margin: 2px 0 8px;
+  color: var(--sp-primary);
+}
+
+.productNoPrice {
+  margin: 2px 0 8px;
+  color: #b45309;
+}
+
+.productSavings {
+  margin: 0;
+  color: var(--sp-success);
+  font-weight: 600;
+}
+
+.productMetaLine {
+  margin: 12px 0 0;
+  color: var(--sp-text);
+  font-weight: 600;
+}
+
+.productMetaSubline {
+  margin: 6px 0 0;
+  color: var(--sp-muted);
+  font-size: 13px;
+}
+
+.productSectionTitle {
+  margin: 30px 0 12px;
+  font-size: 24px;
+  color: var(--sp-text);
+  font-weight: 700;
+  position: relative;
+  padding-left: 20px;
+}
+
+.productSectionTitle::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 24px;
+  background: linear-gradient(135deg, var(--sp-primary) 0%, var(--sp-accent) 100%);
+  border-radius: 2px;
+}
+
+.productSectionList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.productStoreCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  border: 1px solid var(--sp-border);
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.productStoreCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--sp-primary) 0%, var(--sp-accent) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.productStoreCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+.productStoreCard:hover::before {
+  opacity: 1;
+}
+
+.productStoreCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(30, 64, 175, 0.1);
+}
+
+.productStoreCardBest {
+  border: 2px solid var(--sp-success);
+  background: linear-gradient(135deg, #f0fdf4 0%, #c6f6d5 100%);
+  box-shadow: 0 8px 24px rgba(72, 187, 120, 0.15);
+}
+
+.productStoreCardBest::before {
+  background: linear-gradient(90deg, var(--sp-success) 0%, #38a169 100%);
+  opacity: 1;
+}
+
+.productStoreInfo h4 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.productStorePrice {
+  margin: 8px 0 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--sp-primary);
+}
+
+.productStoreUnavailable {
+  margin: 8px 0 0;
+  color: var(--sp-muted);
+  line-height: 1.4;
+}
+
+.productBadge {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--sp-success) 0%, #38a169 100%);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(72, 187, 120, 0.3);
+}
+
+.productActionBtn {
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--sp-primary) 0%, var(--sp-primary-dark) 100%);
+  color: #fff;
+  padding: 12px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  min-width: 114px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+}
+
+.productActionBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(66, 153, 225, 0.4);
+  filter: brightness(1.05);
+}
+
+.productActionBtnDisabled {
+  background: #cbd5e1;
+  color: #334155;
+  cursor: not-allowed;
+}
+
+.productRatingStars {
+  margin: 4px 0 0;
+  color: #f59e0b;
+  letter-spacing: 1px;
+}
+
+.productReviewText {
+  margin: 8px 0 0;
+  color: var(--sp-text);
+  line-height: 1.55;
+}
+
+.productEmptyText {
+  color: var(--sp-muted);
+}
+
+@media (max-width: 760px) {
+  .productHeroCard {
+    grid-template-columns: 1fr;
+  }
+
+  .productHeroImage {
+    max-width: 260px;
+    margin: 0 auto;
+  }
+
+  .productStoreCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .productActionBtn {
+    width: 100%;
+  }
+}

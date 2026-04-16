@@ -9,8 +9,13 @@ function ProductCard({ product }) {
     return null;
   }
 
-  const lowestPrice = Math.min(...product.stores.map((s) => s.price));
-  const bestStore = product.stores.find((s) => s.price === lowestPrice);
+  const validStores = product.stores.filter(
+    (s) => typeof s.price === "number" && Number.isFinite(s.price)
+  );
+  const lowestPrice = validStores.length
+    ? Math.min(...validStores.map((s) => s.price))
+    : null;
+  const bestStore = validStores.find((s) => s.price === lowestPrice) || product.stores[0];
 
   return (
     <div
@@ -26,10 +31,12 @@ function ProductCard({ product }) {
 
       <h3>{product.name}</h3>
 
-      <div className="priceBox">From ₹{lowestPrice}</div>
+      <div className="priceBox">
+        {lowestPrice !== null ? `From ₹${lowestPrice}` : "Price unavailable"}
+      </div>
 
       <p className="bestDealText">
-        Best deal on {bestStore.site}
+        Best deal on {bestStore?.site || "unknown"}
       </p>
     </div>
   );

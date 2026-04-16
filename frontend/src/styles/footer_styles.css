@@ -1,10 +1,21 @@
 /* ─── FOOTER ──────────────────────────────────────────────────────────────── */
 
 .footer {
-  background: #23409a;
+  background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
   color: white;
   padding: 40px 40px 0;
   margin-top: auto;
+  position: relative;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #4299e1 0%, #ed8936 50%, #48bb78 100%);
 }
 
 .footerGrid {
@@ -16,9 +27,13 @@
 }
 
 .footerLogo {
-  font-size: 20px;
+  font-size: 22px;
   margin: 0 0 10px;
-  color: white;
+  background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
 }
 
 .footerTagline {
@@ -69,12 +84,15 @@
 
 .footerBadge {
   display: inline-block;
-  background: rgba(255, 255, 255, 0.15);
+  background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
   color: white;
-  padding: 3px 10px;
-  border-radius: 10px;
-  font-size: 12px;
-  margin-right: 6px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-right: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .rollNo {

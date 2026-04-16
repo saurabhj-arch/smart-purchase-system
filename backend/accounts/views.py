@@ -90,8 +90,8 @@ def profile_view(request):
 def recently_viewed(request):
     """
     GET /api/accounts/recently-viewed/
-    Returns the last 10 products the user viewed, newest first.
+    Returns the last 5 products the user viewed, newest first.
     """
-    items = RecentlyViewed.objects.filter(user=request.user).select_related("product").order_by("-viewed_at")[:10]
+    items = RecentlyViewed.objects.filter(user=request.user).select_related("product").order_by("-viewed_at")[:5]
     serializer = RecentlyViewedSerializer(items, many=True)
     return Response(serializer.data)

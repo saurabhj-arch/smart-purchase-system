@@ -1,6 +1,7 @@
 import time
 from bs4 import BeautifulSoup
 from .base import get_driver, get_wait
+from .matcher import choose_best_verified_match, fetch_product_meta, _name_similarity
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -15,13 +16,23 @@ def scrape_flipkart_for_product(product_name: str) -> dict | None:
     Targeted scrape — searches for a specific product name and returns
     the single best matching result, or None if not found.
     """
-    results = _scrape(product_name, max_results=3)
-    return results[0] if results else None
+    results = _scrape(product_name, max_results=5)
+    best = choose_best_verified_match(product_name, results, site_name="Flipkart")
+    if not best and results:
+        fallback = max(results, key=lambda item: _name_similarity(product_name, item.get("name", "")))
+        if _name_similarity(product_name, fallback.get("name", "")) >= 0.55:
+            best = fallback
+
+    if not best:
+        return None
+    best.update(fetch_product_meta(best["url"], "Flipkart"))
+    return best
 
 
 def _scrape(query: str, max_results: int) -> list[dict]:
     driver = get_driver()
     results = []
+    scraper_failed = False
 
     try:
         search_url = f"https://www.flipkart.com/search?q={query.replace(' ', '%20')}"
@@ -45,7 +56,7 @@ def _scrape(query: str, max_results: int) -> list[dict]:
             )
         except Exception:
             print("[Flipkart Scraper] Timed out waiting for page")
-            return []
+            raise RuntimeError("Flipkart search results did not load")
 
         time.sleep(3)
 
@@ -57,6 +68,10 @@ def _scrape(query: str, max_results: int) -> list[dict]:
             try:
                 # Name — confirmed class from card HTML: div.RG5Slk
                 name_tag = card.select_one("div.RG5Slk")
+                if not name_tag:
+                    # Try alternative selectors
+                    name_tag = card.select_one("a.s1Q9rs") or card.select_one("div._4rR01T")
+                
                 name = name_tag.get_text(strip=True) if name_tag else None
 
                 # Price — find any element containing ₹ symbol
@@ -68,7 +83,7 @@ def _scrape(query: str, max_results: int) -> list[dict]:
                         price_text = text.replace("₹", "").replace(",", "").strip()
                         try:
                             candidate = float(price_text.split()[0])
-                            if candidate >= 1000:  # ignore cashback/coupon amounts
+                            if candidate >= 100:  # lowered threshold for books
                                 price = candidate
                                 break
                         except (ValueError, TypeError):
@@ -106,6 +121,7 @@ def _scrape(query: str, max_results: int) -> list[dict]:
 
     except Exception as e:
         print(f"[Flipkart Scraper] Error: {e}")
+        raise
 
     finally:
         driver.quit()

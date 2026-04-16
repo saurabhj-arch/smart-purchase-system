@@ -1,3 +1,4 @@
+from django.utils import timezone
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -55,16 +56,44 @@ class SearchView(APIView):
             from accounts.models import RecentlyViewed
             from products.models import Product
 
-            if results:
-                product = Product.objects.get(id=results[0]["id"])
-                rv, created = RecentlyViewed.objects.update_or_create(
-                    user=user,
-                    product=product,
-                )
-                if not created:
-                    rv.save()  # Force save to refresh viewed_at timestamp
+            if not results:
+                return
+
+            product = Product.objects.get(id=results[0]["id"])
+            rv, _ = RecentlyViewed.objects.update_or_create(
+                user=user,
+                product=product,
+                defaults={"viewed_at": timezone.now()},
+            )
+            self._prune_recently_viewed(user)
         except Exception as e:
             print(f"[SearchView] Recently viewed save failed: {e}")
+
+    def _save_product_view(self, user, product):
+        """Saves a product that the user opened on the product page."""
+        try:
+            from accounts.models import RecentlyViewed
+
+            RecentlyViewed.objects.update_or_create(
+                user=user,
+                product=product,
+                defaults={"viewed_at": timezone.now()},
+            )
+            self._prune_recently_viewed(user)
+        except Exception as e:
+            print(f"[ProductPriceView] Recently viewed save failed: {e}")
+
+    def _prune_recently_viewed(self, user):
+        """Keeps only the 5 most recent recently-viewed entries."""
+        from accounts.models import RecentlyViewed
+
+        recent_ids = list(
+            RecentlyViewed.objects.filter(user=user)
+            .order_by("-viewed_at")
+            .values_list("id", flat=True)[:5]
+        )
+        if recent_ids:
+            RecentlyViewed.objects.filter(user=user).exclude(id__in=recent_ids).delete()
 
 
 class ProductPriceView(APIView):
@@ -88,6 +117,9 @@ class ProductPriceView(APIView):
                 {"error": "Product not found."},
                 status=status.HTTP_404_NOT_FOUND
             )
+
+        if request.user.is_authenticated:
+            self._save_product_view(request.user, product)
 
         result = scrape_product_prices(product)
         return Response(result, status=status.HTTP_200_OK)

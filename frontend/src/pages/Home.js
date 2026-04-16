@@ -10,6 +10,17 @@ function Home() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+
+  // Product categories for better organization
+  const categories = [
+    { id: "all", name: "All Products", icon: "🛍️" },
+    { id: "electronics", name: "Electronics", icon: "📱" },
+    { id: "books", name: "Books", icon: "📚" },
+    { id: "clothing", name: "Clothing", icon: "👕" },
+    { id: "home", name: "Home & Kitchen", icon: "🏠" },
+    { id: "sports", name: "Sports", icon: "⚽" },
+  ];
 
   useEffect(() => {
     if (query) {
@@ -71,6 +82,32 @@ function Home() {
     }
   };
 
+  // Filter products based on selected category
+  const filteredProducts = products.filter(product => {
+    if (selectedCategory === "all") return true;
+
+    // Simple category detection based on product name
+    const name = product.name.toLowerCase();
+    switch (selectedCategory) {
+      case "electronics":
+        return name.includes("phone") || name.includes("laptop") || name.includes("tv") ||
+               name.includes("headphone") || name.includes("charger") || name.includes("camera");
+      case "books":
+        return name.includes("book") || name.includes("novel") || name.includes("textbook");
+      case "clothing":
+        return name.includes("shirt") || name.includes("jeans") || name.includes("dress") ||
+               name.includes("shoes") || name.includes("jacket");
+      case "home":
+        return name.includes("kitchen") || name.includes("home") || name.includes("appliance") ||
+               name.includes("furniture") || name.includes("decor");
+      case "sports":
+        return name.includes("ball") || name.includes("equipment") || name.includes("fitness") ||
+               name.includes("sport") || name.includes("gym");
+      default:
+        return true;
+    }
+  });
+
   return (
     <div className="homeLayout">
       <div className="homeContent">
@@ -79,15 +116,33 @@ function Home() {
           {query ? (
             <>
               <h1>Search Results</h1>
-              <p>Showing results for "<strong>{query}</strong>"</p>
+              <p>Found {filteredProducts.length} products for "<strong>{query}</strong>"</p>
             </>
           ) : (
             <>
-              <h1>Products</h1>
-              <p>Compare prices across the Web</p>
+              <h1>Smart Shopping Made Easy</h1>
+              <p>Compare prices across Amazon, Flipkart & Croma to find the best deals instantly</p>
             </>
           )}
         </div>
+
+        {/* Category Filter - Only show when not searching */}
+        {!query && !loading && (
+          <div className="categoryFilter">
+            <div className="categoryGrid">
+              {categories.map(category => (
+                <button
+                  key={category.id}
+                  className={`categoryBtn ${selectedCategory === category.id ? 'active' : ''}`}
+                  onClick={() => setSelectedCategory(category.id)}
+                >
+                  <span className="categoryIcon">{category.icon}</span>
+                  <span className="categoryName">{category.name}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Loading state */}
         {loading && (
@@ -112,18 +167,26 @@ function Home() {
         {!loading && !error && (
           <>
             <div className="sectionHeader">
-              <h2>{query ? "Results" : "All Products"}</h2>
-              <span>{products.length} products</span>
+              <h2>
+                {query
+                  ? `Results for "${query}"`
+                  : selectedCategory === "all"
+                    ? "All Products"
+                    : categories.find(c => c.id === selectedCategory)?.name || "Products"
+                }
+              </h2>
+              <span>{filteredProducts.length} products</span>
             </div>
 
             <div className="grid">
-              {products.length > 0 ? (
-                products.map((p) => (
+              {filteredProducts.length > 0 ? (
+                filteredProducts.map((p) => (
                   <ProductCard key={p.id} product={p} />
                 ))
               ) : (
                 <div className="emptyState">
                   <h3>No products found</h3>
+                  <p>Try adjusting your search or category filter.</p>
                 </div>
               )}
             </div>

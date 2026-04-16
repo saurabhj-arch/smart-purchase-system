@@ -42,7 +42,9 @@ function Navbar() {
 
   return (
     <div className="navbar">
-      <div className="logo"><i><b>Smart Purchase</b></i></div>
+      <Link to="/" className="logo" style={{ textDecoration: "none", color: "inherit" }}>
+        <i><b>Smart Purchase</b></i>
+      </Link>
 
       <form className="searchForm" onSubmit={handleSearch}>
         <input

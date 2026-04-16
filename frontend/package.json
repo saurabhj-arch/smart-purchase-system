@@ -9,6 +9,8 @@
     "react-scripts": "5.0.1"
   },
   "scripts": {
+    "de": "react-scripts start",
+    "dev": "react-scripts start",
     "start": "react-scripts start",
     "build": "react-scripts build"
   },
