@@ -6,10 +6,45 @@ import urllib.parse
 import urllib.request
 from difflib import SequenceMatcher
 from typing import Any
+import time
+from threading import Lock
 
 from bs4 import BeautifulSoup
 
 from .base import get_driver
+
+
+# Gemini API rate limiting to stay within free tier (60 calls/minute)
+GEMINI_CALL_LIMIT_PER_DAY = 1000  # Conservative limit to avoid overage
+_gemini_call_count = 0
+_gemini_call_timestamp = time.time()
+_gemini_lock = Lock()
+
+
+def _check_gemini_rate_limit() -> bool:
+    """Check if we're still within Gemini API free tier limits."""
+    global _gemini_call_count, _gemini_call_timestamp
+    
+    with _gemini_lock:
+        current_time = time.time()
+        # Reset counter every 24 hours
+        if current_time - _gemini_call_timestamp > 86400:
+            _gemini_call_count = 0
+            _gemini_call_timestamp = current_time
+        
+        if _gemini_call_count >= GEMINI_CALL_LIMIT_PER_DAY:
+            print(
+                f"[Gemini Rate Limit] Reached {GEMINI_CALL_LIMIT_PER_DAY} calls/day. "
+                f"Falling back to rule-based matching."
+            )
+            return False
+        
+        _gemini_call_count += 1
+        remaining = GEMINI_CALL_LIMIT_PER_DAY - _gemini_call_count
+        if remaining < 100:
+            print(f"[Gemini Rate Limit] WARNING: Only {remaining} calls remaining today")
+        
+        return True
 
 
 STOP_WORDS = {
@@ -153,7 +188,27 @@ def _passes_variant_guards(query: str, candidate_name: str, landing_title: str) 
     - if query asks for a storage variant, candidate/landing must include it
     - if query asks for a color, candidate/landing should include it
     - brand token should appear somewhere in candidate or landing title
+    - reject obvious accessories (cases, chargers, etc.) when querying for device
     """
+    # Reject obvious accessories
+    accessory_markers = {
+        "case", "cover", "screen protector", "protector", "tempered glass",
+        "charger", "cable", "adapter", "power bank", "stand", "holder",
+        "clip", "mount", "earbuds", "earphones", "strap", "band",
+        "folio", "flip case", "bumper", "shell",
+    }
+    candidate_lower = candidate_name.lower()
+    landing_lower = landing_title.lower()
+    
+    for marker in accessory_markers:
+        # Only reject if marker appears but product name doesn't have enough device keywords
+        if marker in candidate_lower or marker in landing_lower:
+            # If query has product keywords like "iphone", "phone", "laptop", etc
+            device_keywords = {"iphone", "phone", "laptop", "tablet", "watch", "airpods", "mac", "pro"}
+            query_has_device = any(kw in query.lower() for kw in device_keywords)
+            if query_has_device:
+                return False
+    
     query_storage = _extract_storage_tokens(query)
     query_numbers = _extract_numeric_tokens(query)
     query_model_codes = _extract_model_code_tokens(query)
@@ -191,7 +246,7 @@ def _passes_variant_guards(query: str, candidate_name: str, landing_title: str) 
 
     # Require most key query tokens to exist on landing title.
     token_coverage = _token_coverage(required_tokens, reference_text)
-    min_coverage = 0.5 if (query_storage or model_numbers or query_model_codes) else 0.6
+    min_coverage = 0.6 if (query_storage or model_numbers or query_model_codes) else 0.7
     if token_coverage < min_coverage:
         return False
 
@@ -405,6 +460,10 @@ def _gemini_match(query: str, candidate_name: str, landing_title: str) -> bool |
     - True / False when API is configured and call succeeds
     - None when API is unavailable/fails (caller should fallback to rules)
     """
+    # Check rate limit before making API call
+    if not _check_gemini_rate_limit():
+        return None
+    
     api_key = os.getenv("GEMINI_API_KEY")
     if not api_key:
         return None

@@ -5,7 +5,7 @@ from products.models import Product, Website, Price
 from .scrapers.amazon import scrape_amazon
 from .scrapers.flipkart import scrape_flipkart
 from .scrapers.croma import scrape_croma
-from .scrapers.matcher import _name_similarity, _passes_variant_guards, _fetch_title_from_url
+from .scrapers.matcher import _name_similarity, _passes_variant_guards, _fetch_title_from_url, _core_brand_token
 
 
 # Maps your Website DB IDs to scraper functions
@@ -46,6 +46,14 @@ def _should_merge_products(product_a: dict, product_b: dict, query: str) -> bool
     name_b = product_b.get("name", "").strip()
     
     if not name_a or not name_b:
+        return False
+    
+    # Extract brands
+    brand_a = _core_brand_token(name_a)
+    brand_b = _core_brand_token(name_b)
+    
+    # If both have brands and they don't match, don't merge
+    if brand_a and brand_b and brand_a != brand_b:
         return False
     
     # Calculate name similarity
@@ -233,19 +241,27 @@ def search_and_scrape(query: str, user=None) -> list[dict]:
     - If user is a guest: always scrape fresh, never cache.
     """
     if user and user.is_authenticated:
-        cache_key = get_cache_key(user.id, query)
-        cached = cache.get(cache_key)
+        try:
+            cache_key = get_cache_key(user.id, query)
+            cached = cache.get(cache_key)
 
-        if cached is not None:
-            print(f"[Cache] HIT for user={user.id} query='{query}' — returning instantly")
-            return cached
+            if cached is not None:
+                print(f"[Cache] HIT for user={user.id} query='{query}' — returning instantly")
+                return cached
+        except Exception as e:
+            print(f"[Cache] Error checking cache for user={user.id}: {e} — proceeding to scrape")
 
         print(f"[Cache] MISS for user={user.id} query='{query}' — scraping fresh")
         results = scrape_fresh(query)
 
-        # Store in cache for 30 minutes
-        cache.set(cache_key, results, timeout=CACHE_TIMEOUT)
-        print(f"[Cache] Stored results for user={user.id} query='{query}' (30 min TTL)")
+        try:
+            # Store in cache for 30 minutes
+            cache_key = get_cache_key(user.id, query)
+            cache.set(cache_key, results, timeout=CACHE_TIMEOUT)
+            print(f"[Cache] Stored results for user={user.id} query='{query}' (30 min TTL)")
+        except Exception as e:
+            print(f"[Cache] Error storing cache for user={user.id}: {e} — cache unavailable but scraping succeeded")
+
         return results
 
     # Guest user — always scrape live

@@ -8,7 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 def scrape_flipkart(query: str) -> list[dict]:
     """General search — returns top 5 results for a query."""
-    return _scrape(query, max_results=5)
+    return _scrape(query, max_results=10)
 
 
 def scrape_flipkart_for_product(product_name: str) -> dict | None:
@@ -16,12 +16,8 @@ def scrape_flipkart_for_product(product_name: str) -> dict | None:
     Targeted scrape — searches for a specific product name and returns
     the single best matching result, or None if not found.
     """
-    results = _scrape(product_name, max_results=5)
+    results = _scrape(product_name, max_results=10)
     best = choose_best_verified_match(product_name, results, site_name="Flipkart")
-    if not best and results:
-        fallback = max(results, key=lambda item: _name_similarity(product_name, item.get("name", "")))
-        if _name_similarity(product_name, fallback.get("name", "")) >= 0.55:
-            best = fallback
 
     if not best:
         return None

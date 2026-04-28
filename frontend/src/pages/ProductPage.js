@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { getProductPrices } from "../utils/api";
 import "../styles/ProductPage.css";
 
 const PLACEHOLDER = "https://placehold.co/300x300?text=No+Image";
@@ -22,22 +23,11 @@ function ProductPage() {
     setLoading(true);
     setError("");
 
-    const token = localStorage.getItem("access");
-    const headers = {};
-    if (token) headers["Authorization"] = `Bearer ${token}`;
-
-    // Calls the new endpoint that scrapes all 3 sites for this specific product
-    fetch(`http://127.0.0.1:8000/api/search/product/${id}/`, { headers })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(`Server returned ${res.status}`);
-        }
-        return res.json();
-      })
+    getProductPrices(id)
       .then(data => setProduct(data))
       .catch((err) => {
         console.error("ProductPage fetch error:", err);
-        setError("Failed to load product prices.");
+        setError(err.message || "Failed to load product prices.");
       })
       .finally(() => setLoading(false));
   }, [id]);

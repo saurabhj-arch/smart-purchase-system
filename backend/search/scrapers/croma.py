@@ -8,7 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 def scrape_croma(query: str) -> list[dict]:
     """General search — returns top 5 results for a query."""
-    return _scrape(query, max_results=5)
+    return _scrape(query, max_results=10)
 
 
 def scrape_croma_for_product(product_name: str) -> dict | None:
@@ -19,10 +19,6 @@ def scrape_croma_for_product(product_name: str) -> dict | None:
     # Keep deeper candidate pool for exact-variant verification.
     results = _scrape(product_name, max_results=12)
     best = choose_best_verified_match(product_name, results, site_name="Croma")
-    if not best and results:
-        fallback = max(results, key=lambda item: _name_similarity(product_name, item.get("name", "")))
-        if _name_similarity(product_name, fallback.get("name", "")) >= 0.55:
-            best = fallback
 
     if not best:
         return None

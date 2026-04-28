@@ -20,10 +20,6 @@ def scrape_amazon_for_product(product_name: str) -> dict | None:
     # near-match/sponsored cards first and exact variant deeper in the page.
     results = _scrape(product_name, max_results=12)
     best = choose_best_verified_match(product_name, results, site_name="Amazon")
-    if not best and results:
-        fallback = max(results, key=lambda item: _name_similarity(product_name, item.get("name", "")))
-        if _name_similarity(product_name, fallback.get("name", "")) >= 0.55:
-            best = fallback
 
     if not best:
         return None

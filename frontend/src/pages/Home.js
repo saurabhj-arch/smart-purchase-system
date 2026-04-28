@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import { transformProduct } from "../utils/transformProduct";
+import { searchProducts, getAllProducts } from "../utils/api";
 
 function Home() {
   const [searchParams] = useSearchParams();
@@ -35,13 +36,12 @@ function Home() {
   const loadAllProducts = () => {
     setLoading(true);
     setError("");
-    fetch("http://127.0.0.1:8000/api/products/")
-      .then(res => res.json())
+    getAllProducts()
       .then(data => {
         const transformed = data.map(transformProduct);
         setProducts(transformed);
       })
-      .catch(() => setError("Failed to load products."))
+      .catch(err => setError(err.message || "Failed to load products."))
       .finally(() => setLoading(false));
   };
 
@@ -51,32 +51,12 @@ function Home() {
     setProducts([]);
 
     try {
-      const token = localStorage.getItem("access");
-
-      const headers = { "Content-Type": "application/json" };
-      // Attach token if logged in — enables caching on the backend
-      if (token) headers["Authorization"] = `Bearer ${token}`;
-
-      const res = await fetch("http://127.0.0.1:8000/api/search/", {
-        method: "POST",
-        headers,
-        body: JSON.stringify({ query: q }),
-      });
-
-      if (!res.ok) {
-        const err = await res.json();
-        setError(err.error || "No results found.");
-        return;
-      }
-
-      const data = await res.json();
-
+      const data = await searchProducts(q);
       // Search API already returns { id, name, image_url, stores: [{site, price, link}] }
       // No transformation needed — just pass directly to ProductCard
       setProducts(data);
-
-    } catch {
-      setError("Something went wrong. Please try again.");
+    } catch (err) {
+      setError(err.message || "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
